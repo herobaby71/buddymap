@@ -1,5 +1,6 @@
 # buddymap
-0. Install python 3.5 on the computer and set it as the default python3. Install and set up git account
+0. Install python 3.5 on the computer and set it as the default python3.<br />
+      Install and set up git account (optional: set up public and private key with git)
 1. mkdir <folder_name>                 
 2. cd <folder_name> 
 4. python3 -m venv myvirtualenv                            (create virtual env within the <folder_name>)
