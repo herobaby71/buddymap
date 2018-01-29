@@ -25,7 +25,7 @@ SECRET_KEY = 'r*p&%&8v-9)^ucji$df)y!8wkn^-ow#0xj38yj3w8wotmb0m!+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','emerald-stage-193602.appspot.com']
 
 
 # Application definition
@@ -111,20 +111,20 @@ WSGI_APPLICATION = 'buddymap.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
 DATABASES = {
-      'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'buddymap',
         'USER': 'buddymap',
         'PASSWORD': '123',
-        'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
     }
 }
-
-# Password validation
-# https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
+DATABASES['default']['HOST'] = '/cloudsql/emerald-stage-193602:us-east1:katarina6702'
+if os.getenv('GAE_INSTANCE'):
+    DATABASES['default']['ENGINE'] ='django.db.backends.postgresql_psycopg2'
+else:
+    DATABASES['default']['HOST'] = '127.0.0.1'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -173,4 +173,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'https://storage.googleapis.com/buddymap/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
+
+import dj_database_url
+db_from_env = dj_database_url.config()
+DATABASE['default'].update(db_from_env)

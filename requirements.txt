@@ -6,6 +6,8 @@ django-oauth-toolkit==1.0.0
 django-rest-framework-social-oauth2==1.0.8
 djangorestframework==3.7.7
 oauthlib==2.0.6
+whitenoise==3.2.1
+psycopg==2.6.2
 psycopg2==2.7.3.2
 PyJWT==1.5.3
 requests==2.18.4
@@ -14,3 +16,7 @@ six==1.11.0
 social-auth-app-django==2.1.0
 social-auth-core==1.6.0
 urllib3==1.22
+gunicorn==19.7.1
+mysqlclient==1.3.12
+wheel==0.30.0
+dj-database-url==0.4.2
