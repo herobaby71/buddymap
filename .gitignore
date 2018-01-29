@@ -1,9 +1,3 @@
 __pycache__/
 *.pyc
 .idea/
-users/migrations/
-accounts/migrations/
-friends/migrations/
-groups/migrations/
-members/migrations/
-maplocators/migrations/
