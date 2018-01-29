@@ -15,9 +15,7 @@ class getFriendListAPIView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, *args, **kwargs):
         data = request.GET
-
         query_result = list(Friend.objects.friends(request.user))
-        print("Query Result Get Friend:", query_result)
         friendList = UserDetailSerializer(
             query_result,
             many=True,

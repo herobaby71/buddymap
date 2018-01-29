@@ -21,6 +21,7 @@ from django.conf.urls import url, include
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^auth/', include('rest_framework_social_oauth2.urls')),
+    url(r'^friendship/', include('friendship.urls')),
     url(r'^api/friend/', include('friends.apis.urls', namespace='api-friend')),
-    url(r'^friendship/', include('friendship.urls'))
+    url(r'^api/locator/', include('maplocators.apis.urls', namespace='api-locator')),    
 ]

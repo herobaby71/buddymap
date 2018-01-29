@@ -9,7 +9,8 @@ User = get_user_model()
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'firstName', 'lastName']
+        fields = ['email', 'firstName', 'lastName', 'longitude', 'latitude']
+
 
 class UserCreateSerializer(serializers.ModelSerializer):
     email2 = serializers.EmailField(label='Confirm Email')

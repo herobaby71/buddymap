@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     #our apps
     'accounts',
     'friends',
+    'maplocators',
 
     #third party apps
     'rest_framework',
