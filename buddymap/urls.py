@@ -22,6 +22,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^auth/', include('rest_framework_social_oauth2.urls')),
+    url(r'^account/password/', include('accounts.passwords.urls', namespace='password')),
     url(r'^friendship/', include('friendship.urls')),
     url(r'^api/account/', include('accounts.apis.urls', namespace='account')),
     url(r'^api/friend/', include('friends.apis.urls', namespace='api-friend')),
