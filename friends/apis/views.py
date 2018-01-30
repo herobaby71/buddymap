@@ -46,7 +46,7 @@ class makeFriendRequestAPIView(APIView):
         try:
             user_email = data.get("user_email")
             user_to = User.objects.get(email=user_email)
-            print("user_id:",user_email)
+            print("user_email:",user_email)
             print("user_to:",user_to)
         except User.DoesNotExist:
             return Response({"success": False, "error_message": "user does not exist"}, status = HTTP_400_BAD_REQUEST)
