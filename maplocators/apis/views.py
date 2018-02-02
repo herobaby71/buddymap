@@ -10,6 +10,7 @@ from rest_framework.permissions import (
 )
 
 User = get_user_model()
+
 class trackCurrentLocationAPIView(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = LocatorsSerializer

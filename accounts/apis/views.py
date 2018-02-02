@@ -24,6 +24,10 @@ from django.contrib.auth import get_user_model
 #################################################################
 #User APIs Here....                                             #
 #################################################################
+class verifyCredentialsAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        return Response({"success": True}, status = HTTP_200_OK)
 class UserCreateAPIView(CreateAPIView):
     serializer_class = UserCreateSerializer
     queryset = get_user_model().objects.all()
