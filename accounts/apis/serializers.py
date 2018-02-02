@@ -7,9 +7,14 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class UserDetailSerializer(serializers.ModelSerializer):
+    avatar = serializers.SerializerMethodField()
+    def get_avatar(self, user):
+        request = self.context.get('request')
+        avatar_url = user.avatar.url
+        return request.build_absolute_uri(avatar_url)
     class Meta:
         model = User
-        fields = ['email', 'firstName', 'lastName', 'longitude', 'latitude', 'status']
+        fields = ['email', 'firstName', 'lastName','avatar','faceboookAvatar' ,'longitude', 'latitude', 'status']
 
 
 class UserCreateSerializer(serializers.ModelSerializer):

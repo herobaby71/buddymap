@@ -1,4 +1,4 @@
-from .serializers import UserCreateSerializer, UserLoginSerializer
+from .serializers import UserCreateSerializer, UserLoginSerializer, UserDetailSerializer
 from rest_framework.views import APIView
 from rest_framework.generics import (
     CreateAPIView,
@@ -28,6 +28,7 @@ class verifyCredentialsAPIView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, *args, **kwargs):
         return Response({"success": True}, status = HTTP_200_OK)
+
 class UserCreateAPIView(CreateAPIView):
     serializer_class = UserCreateSerializer
     queryset = get_user_model().objects.all()
@@ -42,3 +43,13 @@ class UserLoginAPIView(APIView):
             new_data = serializer.data
             return Response(new_data, status=HTTP_200_OK)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+class getUserInfoAPIView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        serializer_data = UserDetailSerializer(
+            user,
+            context={"request": request}
+        ).data
+        return Response({"success": True, "user":serializer_data}, status = HTTP_200_OK)

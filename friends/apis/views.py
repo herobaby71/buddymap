@@ -18,6 +18,7 @@ class getFriendListAPIView(APIView):
         query_result = list(Friend.objects.friends(request.user))
         friendList = UserDetailSerializer(
             query_result,
+            context={"request": request},
             many=True,
         ).data
         return Response({"success": True, "friends": friendList}, status = HTTP_200_OK)

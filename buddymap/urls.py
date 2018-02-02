@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf.urls import url, include
+from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
@@ -27,7 +28,7 @@ urlpatterns = [
     url(r'^api/account/', include('accounts.apis.urls', namespace='account')),
     url(r'^api/friend/', include('friends.apis.urls', namespace='api-friend')),
     url(r'^api/locator/', include('maplocators.apis.urls', namespace='api-locator')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()

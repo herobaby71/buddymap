@@ -175,3 +175,4 @@ USE_TZ = True
 
 STATIC_URL = 'https://storage.googleapis.com/buddymap/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
+USER_IMAGES_DIR = 'user/'

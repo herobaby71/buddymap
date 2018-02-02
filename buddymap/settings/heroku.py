@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     #third party apps
     'rest_framework',
     'oauth2_provider',
+    'social_django',
     'rest_framework_social_oauth2',
     'friendship',
 
@@ -74,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
             ],
@@ -137,6 +139,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'social.pipeline.user.create_user',
+    'accounts.social_auth_pipeline.update_user',  # <--- set the path to the function
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details',
+)
+
 #Overide the existing Authentication User model
 AUTH_USER_MODEL = 'accounts.User'
 AUTH_PROFILE_MODULE = 'accounts.User'
@@ -144,8 +159,8 @@ AUTH_PROFILE_MODULE = 'accounts.User'
 #API keys
 
 # Facebook configuration
-SOCIAL_AUTH_FACEBOOK_KEY = '<your app id goes here>'
-SOCIAL_AUTH_FACEBOOK_SECRET = '<your app secret goes here>'
+SOCIAL_AUTH_FACEBOOK_KEY = '1941676536149627'
+SOCIAL_AUTH_FACEBOOK_SECRET = '24098eaec6b6bd1dbea1b7b04b3c6f35'
 
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
@@ -171,6 +186,10 @@ USE_TZ = True
 
 STATIC_URL = 'https://storage.googleapis.com/buddymap/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+USER_IMAGES_DIR = 'user/'
 
 import dj_database_url
 db_from_env = dj_database_url.config()
