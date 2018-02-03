@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['localhost','secure-brook-82949.herokuapp.com']
 INSTALLED_APPS = [
     #our apps
     'accounts',
+    'groups',
     'friends',
     'maplocators',
 
@@ -190,6 +191,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 USER_IMAGES_DIR = 'user/'
+GROUP_IMAGES_DIR = 'group/'
 
 import dj_database_url
 db_from_env = dj_database_url.config()
