@@ -16,11 +16,14 @@ class getFriendListAPIView(APIView):
     def get(self, request, *args, **kwargs):
         data = request.GET
         query_result = list(Friend.objects.friends(request.user))
+        print(query_result[0])
+        print(query_result[0]._meta.get_fields())
         friendList = UserDetailSerializer(
             query_result,
             context={"request": request},
             many=True,
         ).data
+        print(friendList)
         return Response({"success": True, "friends": friendList}, status = HTTP_200_OK)
 
 class getFriendRequestsAPIView(APIView):
