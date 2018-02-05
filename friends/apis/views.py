@@ -25,7 +25,7 @@ class getFriendListAPIView(APIView):
         ).data
         for i in range(len(friendList)):
             try:
-                locator = Locator.objects.filter(user__email=friendList[i].get('email')).latest('created')
+                locator = Locator.objects.filter(user__email=friendList[i].get('email')).latest('inited')
                 friendList[i]['longitude'] = locator.longitude
                 friendList[i]['latitude'] = locator.latitude
             except:
