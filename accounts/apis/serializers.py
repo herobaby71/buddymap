@@ -14,10 +14,10 @@ class UserDetailSerializer(serializers.ModelSerializer):
             avatar_url = user.avatar.url
             return request.build_absolute_uri(avatar_url)
         return None
-        
+
     class Meta:
         model = User
-        fields = ['email', 'firstName', 'lastName','avatar','faceboookAvatar' ,'longitude', 'latitude', 'status']
+        fields = ['email', 'firstName', 'lastName','avatar','faceboookAvatar' , 'status']
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
