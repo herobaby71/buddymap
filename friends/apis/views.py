@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from friendship.models import Friend, FriendshipRequest
+from maplocators.models import Locator
 from friends.apis.serializers import getFriendListSerializer, getFriendRequestSerializer
 from accounts.apis.serializers import UserDetailSerializer
 
@@ -16,14 +18,18 @@ class getFriendListAPIView(APIView):
     def get(self, request, *args, **kwargs):
         data = request.GET
         query_result = list(Friend.objects.friends(request.user))
-        print(query_result[0])
-        print(query_result[0]._meta.get_fields())
         friendList = UserDetailSerializer(
             query_result,
             context={"request": request},
             many=True,
         ).data
-        print(friendList)
+        for i in range(len(friendList)):
+            try:
+                locator = Locator.objects.filter(user__email=friendList[i].get('email')).latest('created')
+                friendList[i]['longitude'] = locator.longitude
+                friendList[i]['latitude'] = locator.latitude
+            except:
+                pass
         return Response({"success": True, "friends": friendList}, status = HTTP_200_OK)
 
 class getFriendRequestsAPIView(APIView):

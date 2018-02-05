@@ -31,6 +31,8 @@ class postCurrentLocationAPIView(APIView):
         data = request.data
         user = request.user
         try:
+            locator = Locator.objects.create_locator(request.user, data.get("longitude"), data.get("latitude"))
+            locator.save()
             user.longitude = data.get("longitude")
             user.latitude = data.get("latitude")
             user.save()
