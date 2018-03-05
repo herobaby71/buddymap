@@ -117,7 +117,7 @@ WSGI_APPLICATION = 'buddymap.wsgi.application'
 ASGI_APPLICATION = 'buddymap.asgi.application'
 
 #REDIS and Django Channels for Chat
-redis_host = redis://h:pdb71cc63b9f1b92046a006cc00d9f47a74a7ec4c82133f2edc88989ed2817aca@ec2-35-172-85-214.compute-1.amazonaws.com
+redis_host = 'redis://h:pdb71cc63b9f1b92046a006cc00d9f47a74a7ec4c82133f2edc88989ed2817aca@ec2-35-172-85-214.compute-1.amazonaws.com'
 CHANNEL_LAYERS = {
     "default": {
         # This example app uses the Redis channel layer implementation asgi_redis
