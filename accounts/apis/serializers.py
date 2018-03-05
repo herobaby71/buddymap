@@ -45,11 +45,12 @@ class UserCreateSerializer(serializers.ModelSerializer):
         if(user_qs.exists()):
             raise serializers.ValidationError("user with this buddycode already exists.")
         return value
-    
+
     def create(self, validated_data):
         email = validated_data['email']
         password = validated_data['password']
-        user_obj = User(email = email)
+        buddycode = validated_data['buddycode']
+        user_obj = User(email = email, buddycode=buddycode, firstName = validated_data['firstName'], lastName = validated_data['lastName'])
         user_obj.set_password(password)
         user_obj.save()
         return validated_data
