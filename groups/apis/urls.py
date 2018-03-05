@@ -2,6 +2,7 @@ from django.conf.urls import url
 
 from .views import CreateGroupAPIView, RemoveGroupAPIView, AddUserToGroupAPIView, RemoveUserFromGroupAPIView, GetGroupsFromUserAPIView, GetUsersInGroup
 
+app_name="groups"
 urlpatterns = [
     url(r'^create/$', CreateGroupAPIView.as_view(), name='create'),
     url(r'^remove/$', RemoveGroupAPIView.as_view(), name='remove'),

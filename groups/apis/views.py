@@ -51,3 +51,19 @@ class GetUsersInGroup(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, *args, **kwargs):
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+        # data = request.GET
+        # query_result = list(Friend.objects.friends(request.user))
+        # friendList = UserDetailSerializer(
+        #     query_result,
+        #     context={"request": request},
+        #     many=True,
+        # ).data
+        # for i in range(len(friendList)):
+        #     try:
+        #         locator = Locator.objects.filter(user__email=friendList[i].get('email')).latest('inited')
+        #         friendList[i]['longitude'] = locator.longitude
+        #         friendList[i]['latitude'] = locator.latitude
+        #     except:
+        #         pass
+        # return Response({"success": True, "friends": friendList}, status = HTTP_200_OK)
+        

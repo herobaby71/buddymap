@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^account/password/', include('accounts.passwords.urls', namespace='password')),
     url(r'^friendship/', include('friendship.urls')),
     url(r'^api/account/', include('accounts.apis.urls', namespace='account')),
+    url(r'^api/activity/', include('activities.apis.urls', namespace='activity')),
     url(r'^api/friend/', include('friends.apis.urls', namespace='api-friend')),
     url(r'^api/locator/', include('maplocators.apis.urls', namespace='api-locator')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

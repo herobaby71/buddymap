@@ -1,7 +1,8 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 from django.core.validators import RegexValidator
-from django.contrib.auth.models import Group, AbstractBaseUser,BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, PermissionsMixin
 
 class MyUserManager(BaseUserManager):
     """
@@ -57,6 +58,7 @@ class MyUserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
 
     email       = models.EmailField(verbose_name='email address', max_length=255, unique = True, null = True)
+    buddycode   =  models.CharField(verbose_name='buddycode', max_length=150, unique=True, null=True)
     is_active   = models.BooleanField(verbose_name='active', default=True)
     staff       = models.BooleanField(verbose_name= 'staff status', default = False)
     admin       = models.BooleanField(verbose_name= 'admin status', default = False)
@@ -64,6 +66,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     lastName    = models.CharField(max_length=32, default='', null=True, blank=True)
     longitude   = models.DecimalField(decimal_places=55, max_digits=60, null = True, blank = True)
     latitude    = models.DecimalField(decimal_places=55, max_digits=60, null=True, blank = True)
+    last_updated= models.DateTimeField(default=timezone.now, null=True, blank=True)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     phone       = models.CharField(validators=[phone_regex],max_length = 15, null=True, blank = True)
 

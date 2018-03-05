@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import (
     IsAuthenticated
 )
-
+import datetime
 User = get_user_model()
 
 class trackCurrentLocationAPIView(APIView):
@@ -31,8 +31,10 @@ class postCurrentLocationAPIView(APIView):
         data = request.data
         user = request.user
         try:
-            locator = Locator.objects.create_locator(request.user, data.get("longitude"), data.get("latitude"))
-            locator.save()
+            user.longitude = data.get("longitude")
+            user.latitude = data.get("latitude")
+            user.last_updated = datetime.now()
+            user.save()
         except:
             return Response({"success": False, 'error_message': "unidentified coordinate"}, status = HTTP_400_BAD_REQUEST)
         return Response({"success": True}, status = HTTP_200_OK)

@@ -9,22 +9,19 @@ User = get_user_model()
 class UserDetailSerializer(serializers.ModelSerializer):
     avatar = serializers.SerializerMethodField()
     def get_avatar(self, user):
-        if(user.avatar):
-            request = self.context.get('request')
-            avatar_url = user.avatar.url
-            return request.build_absolute_uri(avatar_url)
-        return None
-
+        request = self.context.get('request')
+        avatar_url = user.avatar.url
+        return request.build_absolute_uri(avatar_url)
     class Meta:
         model = User
-        fields = ['email', 'firstName', 'lastName','avatar','faceboookAvatar' , 'status']
+        fields = ['email', 'firstName', 'lastName','avatar','faceboookAvatar' ,'longitude', 'latitude', 'status']
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
     email2 = serializers.EmailField(label='Confirm Email')
     class Meta:
         model= User
-        fields = ['email','email2','firstName','lastName', 'password']
+        fields = ['email','email2', 'buddycode','firstName','lastName', 'password']
         extra_kwargs = {"password": {"write_only":True}}
 
     def validate(self, data):
@@ -42,6 +39,13 @@ class UserCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("user with this email address already exists.")
         return value
 
+    def validate_buddycode(self, value):
+        buddycode = value
+        user_qs = User.objects.filter(buddycode=buddycode)
+        if(user_qs.exists()):
+            raise serializers.ValidationError("user with this buddycode already exists.")
+        return value
+    
     def create(self, validated_data):
         email = validated_data['email']
         password = validated_data['password']

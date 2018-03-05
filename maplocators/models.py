@@ -12,5 +12,5 @@ class Locator(models.Model):
     longitude = models.DecimalField(decimal_places=55, max_digits=60, null = True, blank = True)
     latitude = models.DecimalField(decimal_places=55, max_digits=60, null=True, blank = True)
     created = models.DateField(default = timezone.now)
-    inited = models.DateTimeField(default = timezone.now)
+
     objects = LocatorManager()
