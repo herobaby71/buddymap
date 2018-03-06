@@ -8,25 +8,32 @@ from accounts.apis.serializers import UserDetailSerializer
 #user = UserDetaukSerializer(read_only=True)
 User = get_user_model()
 
-class GroupMembershipSerializer(serializers.ModelSerializer):
+class GroupCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
-        fields = ['id','name', 'image']
+        fields = ['name','description', 'image']
+
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ['id','name','description', 'image']
 
 class MembershipSerializer(serializers.ModelSerializer):
     user = UserDetailSerializer()
-    group = GroupMembershipSerializer()
+    group = GroupSerializer()
     class Meta:
         model = Membership
         fields = ['user', 'group', 'owner', 'date_joined']
 
-class GroupSerializer(serializers.ModelSerializer):
+class GroupWithMembersSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
     members = UserDetailSerializer(many=True)
     def get_image(self, group):
         request = self.context.get('request')
-        image_url = group.avatar.url
-        return request.build_absolute_uri(image_url)
+        image = group.image
+        if(image):
+            return request.build_absolute_uri(image.url)
+        return None
     class Meta:
-        model = User
-        fields = ['name', 'image', 'members']
+        model = Group
+        fields = ['id', 'name', 'description', 'image', 'members']

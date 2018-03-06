@@ -10,11 +10,10 @@ class UserDetailSerializer(serializers.ModelSerializer):
     avatar = serializers.SerializerMethodField()
     def get_avatar(self, user):
         request = self.context.get('request')
-        try:
-            avatar_url = user.avatar.url
-        except:
-            return ""
-        return request.build_absolute_uri(avatar_url)
+        avatar = user.avatar
+        if(avatar):
+            return request.build_absolute_uri(avatar.url)
+        return None
     class Meta:
         model = User
         fields = ['email', 'firstName', 'lastName','avatar','faceboookAvatar' ,'longitude', 'latitude', 'status']

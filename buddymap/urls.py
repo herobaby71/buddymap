@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^api/account/', include('accounts.apis.urls', namespace='account')),
     url(r'^api/activity/', include('activities.apis.urls', namespace='activity')),
     url(r'^api/friend/', include('friends.apis.urls', namespace='api-friend')),
+    url(r'^api/group/', include('groups.apis.urls', namespace='api-group')),
     url(r'^api/locator/', include('maplocators.apis.urls', namespace='api-locator')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

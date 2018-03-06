@@ -5,7 +5,7 @@ from django.utils import timezone
 User = get_user_model()
 class Group(models.Model):
     name = models.CharField(max_length=80)
-    # description = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, default="awesome group")
     image = models.ImageField(upload_to=settings.GROUP_IMAGES_DIR, null = True, blank = True)
     members = models.ManyToManyField(User, through= 'Membership', through_fields= ('group', 'user'))
 
