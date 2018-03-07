@@ -4,6 +4,8 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from django.middleware.csrf import CsrfViewMiddleware
 from django.contrib.auth.models import AnonymousUser
 from django.conf import settings
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.settings import api_settings
 from urllib import parse
 
 class RequestFormAttachMixin(object):
@@ -23,6 +25,7 @@ class RedirectNextMixin(object):
 #########################
 #Channels Auth Middleware
 #########################
+authenticators = [auth() for auth in api_settings.DEFAULT_AUTHENTICATION_CLASSES]
 class QueryAuthMiddleware:
     """
     Custom middleware (insecure) that takes user IDs from the query string.

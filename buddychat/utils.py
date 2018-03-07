@@ -36,7 +36,7 @@ def save_message_to_db(group, message_type, message, user):
     """
         Save user message to corresponding group
     """
-    msg_obj = BuddyMessage(user=user, group=group, message=message, message_type=message_type)
+    msg_obj = BuddyMessage(user=user, group=group, message=message, message_type=message_type).order_by('-created')
     msg_obj.save()
     return message
 

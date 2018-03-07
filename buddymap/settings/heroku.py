@@ -172,31 +172,35 @@ SOCIAL_AUTH_PIPELINE = (
 
 
 ######### Buddy Chat Specific Settings ##########
-NOTIFY_USERS_ON_ENTER_OR_LEAVE_GROUPS = True
+NOTIFY_USERS_ON_ENTER_OR_LEAVE_GROUPS = False
 
 MSG_TYPE_MESSAGE = 0  # For standard messages
 MSG_TYPE_WARNING = 1  # For yellow messages
-MSG_TYPE_ALERT = 2  # For red & dangerous alerts
-MSG_TYPE_MUTED = 3  # For just OK information that doesn't bother users
-MSG_TYPE_ENTER = 4  # For just OK information that doesn't bother users
-MSG_TYPE_LEAVE = 5  # For just OK information that doesn't bother users
+MSG_TYPE_GLOBAL = 2
+MSG_TYPE_ALERT = 3  # For red & dangerous alerts
+MSG_TYPE_MUTED = 4  # For just OK information that doesn't bother users
+MSG_TYPE_ENTER = 5  # For just OK information that doesn't bother users
+MSG_TYPE_LEAVE = 6  # For just OK information that doesn't bother users
+MSG_TYPE_JOIN = 7  # For just OK information that doesn't bother users
 
 MESSAGE_TYPES_CHOICES = (
     (MSG_TYPE_MESSAGE, 'MESSAGE'),
     (MSG_TYPE_WARNING, 'WARNING'),
-    (MSG_TYPE_ALERT, 'ALERT'),
+    (MSG_TYPE_GLOBAL, 'GLOBAL'),
     (MSG_TYPE_MUTED, 'MUTED'),
     (MSG_TYPE_ENTER, 'ENTER'),
     (MSG_TYPE_LEAVE, 'LEAVE'),
+    (MSG_TYPE_JOIN, 'JOIN'),
 )
 
 MESSAGE_TYPES_LIST = [
     MSG_TYPE_MESSAGE,
     MSG_TYPE_WARNING,
-    MSG_TYPE_ALERT,
+    MSG_TYPE_GLOBAL,
     MSG_TYPE_MUTED,
     MSG_TYPE_ENTER,
     MSG_TYPE_LEAVE,
+    MSG_TYPE_JOIN
 ]
 #########     End Buddy Chat Setting    #########
 
@@ -245,5 +249,4 @@ import dj_database_url
 db_from_env = dj_database_url.config()
 DATABASES['default'].update(db_from_env)
 
-#Custom Session cookie name
-SESSION_COOKIE_NAME='Bearer'
+#Custom Session cookie name'

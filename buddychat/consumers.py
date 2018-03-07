@@ -39,7 +39,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         else:
             # Accept the connection
             await self.accept()
-            print("Successfully Authenticate User: ",self.scope['user'])
+            print("Successfully Authenticate User: ",self.scope)
         # Store which groups the user has joined on this connection
 
         self.groups = set()
@@ -122,12 +122,10 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 "group": group_id,
                 "buddycode": msg_hist.user.buddycode,
             }
-            if(msg_hist.message_type==settings.MSG_TYPE_ENTER):
+            if(msg_hist.message_type==settings.MSG_TYPE_JOIN):
                 payload["message"] = ''.join((msg_hist.user.buddycode,' joined the group'))
             elif(msg_hist.message_type==settings.MSG_TYPE_MESSAGE):
                 payload["message"] = msg_hist.message
-            elif(msg_hist.message_type==settings.MSG_TYPE_LEAVE):
-                payload["message"] = ''.join((msg_hist.user.buddycode,' left the group'))
             await self.send_json(payload)
 
     async def leave_group(self, group_id):
@@ -138,7 +136,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         group = await get_group_or_error(group_id, self.scope["user"])
 
         #Save Message to database
-        await save_message_to_db(group, settings.MSG_TYPE_LEAVE, "", self.scope["user"])
+        # await save_message_to_db(group, settings.MSG_TYPE_LEAVE, "", self.scope["user"])
 
         # Send a leave message if it's turned on
         if settings.NOTIFY_USERS_ON_ENTER_OR_LEAVE_GROUPS:
@@ -172,7 +170,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         # Get the group and send to the group about it
         group = await get_group_or_error(group_id, self.scope["user"])
         #Save Message to database
-        await save_message_to_db(group, settings.MSG_TYPE_MESSAGE, message, self.scope["user"])
+        # await save_message_to_db(group, settings.MSG_TYPE_MESSAGE, message, self.scope["user"])
 
         await self.channel_layer.group_send(
             group.group_name,
@@ -226,3 +224,17 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 "message": event["message"],
             },
         )
+
+    # async def global_notification(self, event):
+    #     """
+    #     Called when someone has messaged our chat.
+    #     """
+    #     # Send a message down to the client
+    #     await self.send_json(
+    #         {
+    #             "msg_type": settings.MSG_TYPE_GLOBAL,
+    #             "group": event["group_id"],
+    #             "buddycode": event["buddycode"],
+    #             "message": event["message"],
+    #         },
+    #     )
