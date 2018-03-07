@@ -26,7 +26,6 @@ def get_group_or_error(group_id, user):
     #     raise ClientError("group_ACCESS_DENIED")
     members = list(Membership.objects.filter(group=group))
     members = [item.user for item in members]
-    print("group members:", members)
     if user not in members:
         raise ClientError("group_ACCESS_DENIED")
     return group
@@ -36,7 +35,7 @@ def save_message_to_db(group, message_type, message, user):
     """
         Save user message to corresponding group
     """
-    msg_obj = BuddyMessage(user=user, group=group, message=message, message_type=message_type).order_by('-created')
+    msg_obj = BuddyMessage(user=user, group=group, message=message, message_type=message_type)
     msg_obj.save()
     return message
 
@@ -46,7 +45,7 @@ def get_message_history(group):
         Get Message history for the specify group
     """
     try:
-        messages = BuddyMessage.objects.filter(group=group)
+        messages = BuddyMessage.objects.filter(group=group).order_by('created')
     except BuddyMessage.DoesNotExist:
         messages = [""]
     return messages

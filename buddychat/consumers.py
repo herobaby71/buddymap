@@ -20,7 +20,6 @@ class EchoConsumer(SyncConsumer):
         })
 
     def websocket_receive(self, event):
-        print(self.scope)
         print("Message from client:",event.get('text'))
         self.send({
             "type": "websocket.send",
@@ -39,7 +38,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         else:
             # Accept the connection
             await self.accept()
-            print("Successfully Authenticate User: ",self.scope)
+            print("Successfully Authenticate User: ",self.scope["user"])
         # Store which groups the user has joined on this connection
 
         self.groups = set()
@@ -63,6 +62,9 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             elif command == "send":
                 print("send")
                 await self.send_group(content["group"], content["message"])
+            elif command == "history":
+                print("get history")
+                await self.get_history(content["group"])
         except ClientError as e:
             # Catch any errors and send it back
             await self.send_json({"error": e.code})
@@ -112,21 +114,9 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         })
 
         #Save Message to database
-        await save_message_to_db(group, settings.MSG_TYPE_ENTER, "", self.scope["user"])
+        # await save_message_to_db(group, settings.MSG_TYPE_ENTER, "", self.scope["user"])
 
-        #send message history to client
-        message_history = await get_message_history(group)
-        for msg_hist in message_history:
-            payload ={
-                "msg_type": msg_hist.message_type,
-                "group": group_id,
-                "buddycode": msg_hist.user.buddycode,
-            }
-            if(msg_hist.message_type==settings.MSG_TYPE_JOIN):
-                payload["message"] = ''.join((msg_hist.user.buddycode,' joined the group'))
-            elif(msg_hist.message_type==settings.MSG_TYPE_MESSAGE):
-                payload["message"] = msg_hist.message
-            await self.send_json(payload)
+
 
     async def leave_group(self, group_id):
         """
@@ -170,7 +160,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         # Get the group and send to the group about it
         group = await get_group_or_error(group_id, self.scope["user"])
         #Save Message to database
-        # await save_message_to_db(group, settings.MSG_TYPE_MESSAGE, message, self.scope["user"])
+        await save_message_to_db(group, settings.MSG_TYPE_MESSAGE, message, self.scope["user"])
 
         await self.channel_layer.group_send(
             group.group_name,
@@ -181,6 +171,23 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 "message": message,
             }
         )
+
+    async def get_history(self, group_id):
+        group = await get_group_or_error(group_id, self.scope["user"])
+
+        #send message history to client
+        message_history = await get_message_history(group)
+        for msg_hist in message_history:
+            payload ={
+                "msg_type": msg_hist.message_type,
+                "group": group_id,
+                "buddycode": msg_hist.user.buddycode,
+            }
+            if(msg_hist.message_type==settings.MSG_TYPE_JOIN):
+                payload["message"] = ''.join((msg_hist.user.buddycode,' joined the group'))
+            elif(msg_hist.message_type==settings.MSG_TYPE_MESSAGE):
+                payload["message"] = msg_hist.message
+            await self.send_json(payload)
 
     ##### Handlers for messages sent over the channel layer
 
