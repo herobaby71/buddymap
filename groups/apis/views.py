@@ -16,10 +16,12 @@ from rest_framework.permissions import (
 )
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-
+from django.conf import settings
 from django.contrib.auth import get_user_model
+
 from groups.models import Group, Membership
 from activities.models import CreateGroup
+from buddychat.models import BuddyMessage
 User = get_user_model()
 #################################################################
 #Group APIs Here....                                             #
@@ -58,6 +60,10 @@ class CreateGroupAPIView(APIView):
                 mem_obj = Membership(user = user_obj, group=group_obj, owner=False)
                 mem_obj.save()
 
+                #notify the group
+                msg_obj = BuddyMessage(user=user_obj, group=group_obj, message=''.join((user_obj.buddycode,' joined the group')), message_type=settings.MSG_TYPE_JOIN)
+                msg_obj.save()
+
         #create an activity for the owner
         if(not CreateGroup.objects.filter(user = owner, group = group_obj).exists()):
             activity_obj = CreateGroup(owner = owner, group = group_obj, longitude = owner.longitude, latitude = owner.latitude)
@@ -88,6 +94,9 @@ class AddUserToGroupAPIView(APIView):
             user_to_obj = User.objects.get(email=user_to_email)
             mem_obj = Membership(user = user_to_obj, group=group_obj, owner=False)
             mem_obj.save()
+
+            msg_obj = BuddyMessage(user=user_to_obj, group=group_obj, message=''.join((user_to_obj.buddycode,' joined the group')), message_type=settings.MSG_TYPE_JOIN)
+            msg_obj.save()
 
         except User.DoesNotExists:
             return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
@@ -128,7 +137,7 @@ class GetGroupsFromUserAPIView(APIView):
         user = request.user
         groups = list(Group.objects.filter(members=user))
         # GroupWithMembersSerializer or GroupSerializer
-        serializer_data = GroupWithMembersSerializer(
+        serializer_data = GroupSerializer(
             groups,
             context={"request": request},
             many = True

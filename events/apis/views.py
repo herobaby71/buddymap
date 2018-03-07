@@ -66,6 +66,11 @@ class RemoveUserFromEventAPIView(APIView):
     def post(self, request, *args, **kwargs):
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
+class ReportEventAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request, *args, **kwargs):
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
 #################################################################
 #Group Event APIs Here....                                             #
 #################################################################
