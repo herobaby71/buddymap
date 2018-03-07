@@ -168,6 +168,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             {
                 "type": "chat.message",
                 "group_id": group_id,
+                "user_id": self.scope["user"].id,
                 "buddycode": self.scope["user"].buddycode,
                 "message": message,
             }
@@ -182,6 +183,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             payload ={
                 "msg_type": msg_hist.message_type,
                 "group": group_id,
+                "user_id": msg_hist.user.id,
                 "buddycode": msg_hist.user.buddycode,
             }
             if(msg_hist.message_type==settings.MSG_TYPE_JOIN):
