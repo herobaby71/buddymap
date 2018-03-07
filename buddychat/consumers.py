@@ -51,6 +51,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         # Messages will have a "command" key we can switch on
         command = content.get("command", None)
         try:
+            print(command)
             if command == "join":
                 # Make them join the group
                 print("join")
