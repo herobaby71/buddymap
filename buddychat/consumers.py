@@ -170,6 +170,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 "group_id": group_id,
                 "user_id": self.scope["user"].id,
                 "buddycode": self.scope["user"].buddycode,
+                "first_name":self.scope["user"].firstName,
+                "last_name":self.scope["user"].lastName,
                 "message": message,
             }
         )
@@ -185,6 +187,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 "group": group_id,
                 "user_id": msg_hist.user.id,
                 "buddycode": msg_hist.user.buddycode,
+                "first_name":self.scope["user"].firstName,
+                "last_name":self.scope["user"].lastName,
             }
             if(msg_hist.message_type==settings.MSG_TYPE_JOIN):
                 payload["message"] = ''.join((msg_hist.user.buddycode,' joined the group'))
@@ -232,6 +236,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 "group": event["group_id"],
                 "buddycode": event["buddycode"],
                 "message": event["message"],
+                "first_name":self.scope["user"].firstName,
+                "last_name":self.scope["user"].lastName,
             },
         )
 
