@@ -114,7 +114,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 WSGI_APPLICATION = 'buddymap.wsgi.application'
-ASGI_APPLICATION = 'buddychat.routing.application'
+ASGI_APPLICATION = 'buddymap.routing.application'
 
 #REDIS and Django Channels for Chat
 redis_host = os.environ.get('REDIS_URL', 'redis://localhost:6379')
@@ -203,6 +203,40 @@ MESSAGE_TYPES_LIST = [
     MSG_TYPE_JOIN
 ]
 #########     End Buddy Chat Setting    #########
+
+######### Buddy Locator Specific Settings ##########
+NOTIFY_USERS_ON_ENTER_OR_LEAVE_GROUPS = False
+
+LOC_TYPE_MESSAGE = 0  # For standard messages
+LOC_TYPE_WARNING = 1  # For yellow messages
+LOC_TYPE_GLOBAL = 2
+LOC_TYPE_ALERT = 3  # For red & dangerous alerts
+LOC_TYPE_MUTED = 4  # For just OK information that doesn't bother users
+LOC_TYPE_ENTER = 5  # For just OK information that doesn't bother users
+LOC_TYPE_LEAVE = 6  # For just OK information that doesn't bother users
+LOC_TYPE_JOIN = 7  # For just OK information that doesn't bother users
+
+MESSAGE_TYPES_CHOICES = (
+    (LOC_TYPE_MESSAGE, 'MESSAGE'),
+    (LOC_TYPE_WARNING, 'WARNING'),
+    (LOC_TYPE_GLOBAL, 'GLOBAL'),
+    (LOC_TYPE_MUTED, 'MUTED'),
+    (LOC_TYPE_ENTER, 'ENTER'),
+    (LOC_TYPE_LEAVE, 'LEAVE'),
+    (LOC_TYPE_JOIN, 'JOIN'),
+)
+
+MESSAGE_TYPES_LIST = [
+    LOC_TYPE_MESSAGE,
+    LOC_TYPE_WARNING,
+    LOC_TYPE_GLOBAL,
+    LOC_TYPE_MUTED,
+    LOC_TYPE_ENTER,
+    LOC_TYPE_LEAVE,
+    LOC_TYPE_JOIN
+]
+#########     End Buddy Locator Setting    #########
+
 
 ######### Social Authentication Setting #########
 # Facebook configuration
