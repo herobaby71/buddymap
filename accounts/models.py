@@ -64,6 +64,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     admin       = models.BooleanField(verbose_name= 'admin status', default = False)
     firstName   = models.CharField(max_length=32, default='', null=True, blank=True)
     lastName    = models.CharField(max_length=32, default='', null=True, blank=True)
+    description = models.CharField(max_length=255, default='Hi! I am a cool person. <3', null=True, blank=True)
     longitude   = models.DecimalField(decimal_places=55, max_digits=60, null = True, blank = True)
     latitude    = models.DecimalField(decimal_places=55, max_digits=60, null=True, blank = True)
     last_updated= models.DateTimeField(default=timezone.now, null=True, blank=True)
