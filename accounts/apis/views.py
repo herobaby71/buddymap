@@ -53,3 +53,15 @@ class getUserInfoAPIView(APIView):
             context={"request": request}
         ).data
         return Response({"success": True, "user":serializer_data}, status = HTTP_200_OK)
+
+class ChangeUserStatusAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        user = request.user
+        try:
+            user.status = data.get("status")
+            user.save()
+        except:
+            return Response({"success": False, 'error_message': "status not valid"}, status = HTTP_400_BAD_REQUEST)
+        return Response({"success": True}, status = HTTP_200_OK)
