@@ -17,7 +17,7 @@ class Poke(Activity):
     user_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='poked_by')
 
     def __str__(self):
-        return ''.join((str(self.owner), ' poke ', str(self.user_to)))
+        return ''.join((str(self.user_from), ' poke ', str(self.user_to)))
 
 class CreateGroup(Activity):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owns_group')
