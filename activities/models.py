@@ -33,6 +33,15 @@ class CreateEvent(Activity):
     def __str__(self):
         return ''.join((str(owner), ' Creates ', str(event)))
 
+class QuickMessage(Activity):
+    user_from = models.ForeignKey(User, on_delete=models.CASCADE, related_name='message')
+    user_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messaged_by')
+    message = models.CharField(max_length=255, default='Hi! Wassup :)', null=True, blank=True)
+
+
+    def __str__(self):
+        return ''.join((str(self.user_from), ' message ', str(self.user_to)))
+
 # class AddFriend(Activity):
 #
 # class HideFromGroup(Activity):
