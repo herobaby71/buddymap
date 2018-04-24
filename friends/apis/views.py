@@ -30,9 +30,12 @@ class getFriendRequestsAPIView(APIView):
 
         query_result = list(Friend.objects.unread_requests(user=request.user))
         # print("Query Result Get Friend Request:", query_result)
-        requestList = []
-        for item in query_result:
-            requestList.append(getFriendRequestSerializer(item).data)
+        requestList = getFriendRequestSerializer(
+            query_result,
+            many=True,
+            context={"request": request}
+        ).data
+
         return Response({"success": True, "requests":requestList}, status = HTTP_200_OK)
 
 class makeFriendRequestAPIView(APIView):
