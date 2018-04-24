@@ -40,7 +40,7 @@ class PokeAPIView(APIView):
         user_from = request.user
         user_to=data.get('user_to')
         try:
-            user_to=User.objects.filter(email=user_to)
+            user_to=list(User.objects.filter(email=user_to))[0]
         except User.DoesNotExist:
             return esponse({"success":False, "message":"User does not exists!"})
         pk_obj = Poke.objects.create(user_from=user_from, user_to=user_to)
