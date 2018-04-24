@@ -150,6 +150,8 @@ class LocatorConsumer(AsyncJsonWebsocketConsumer):
                 "type": "locator.message",
                 "group_id": group_id,
                 "buddycode": self.scope["user"].buddycode,
+                "firstName": self.scope["user"].firstName,
+                "lastName": self.scope["user"].lastName,
                 "longitude": longitude,
                 "latitude": latitude
             }
@@ -194,6 +196,8 @@ class LocatorConsumer(AsyncJsonWebsocketConsumer):
                 "LOC_type": settings.LOC_TYPE_MESSAGE,
                 "group": event["group_id"],
                 "buddycode": event["buddycode"],
+                "firstName": event["firstName"],
+                "lastName": event["lastName"],
                 "longitude": event["longitude"],
                 "latitude": event["latitude"],
             },
