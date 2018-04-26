@@ -1,4 +1,4 @@
-from .serializers import PokeSerializer
+from .serializers import PokeSerializer, QuickMessageSerializer
 from rest_framework.views import APIView
 from rest_framework.generics import (
     CreateAPIView,
@@ -69,3 +69,31 @@ class MessageAPIView(APIView):
         msg_obj.save()
 
         return Response({"success":True, "message":''.join(("Successfully sent message to user ", user_to.firstName, ' ', user_to.lastName))})
+
+class GetActivitiesAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        data = request.GET
+        user_obj = request.user
+        try:
+            poke_objs=list(Poke.objects.filter(user_to=user_obj))
+            pokes = PokeSerializer(
+                poke_objs,
+                context={"request": request},
+                many=True,
+            ).data
+        except Poke.DoesNotExist:
+            poke_objs = []
+
+        try:
+            msg_objs=list(QuickMessage.objects.filter(user_to=user_obj))
+            msgs = QuickMessageSerializer(
+                msg_objs,
+                context={"request": request},
+                many=True,
+            ).data
+        except Poke.DoesNotExist:
+            msg_objs=[]
+
+        activities = {'pokes':pokes, 'messages':msgs}
+
+        return Response({"success":True, "activities":activities})

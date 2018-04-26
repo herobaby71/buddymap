@@ -81,7 +81,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     status      = models.IntegerField(choices = STATUS_CHOICE, default = 0)
     avatar      = models.ImageField(upload_to=settings.USER_IMAGES_DIR, null = True, blank = True)
-    faceboookAvatar = models.CharField(max_length=500, null=True, blank=True)
+    faceboookAvatar = models.CharField(max_length=500, default='http://images.hellokids.com/_uploads/_tiny_galerie/20120416/x2t_how-to-draw-a-cute-dinosaur-tutorial-drawing.jpg', null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     objects = MyUserManager()
