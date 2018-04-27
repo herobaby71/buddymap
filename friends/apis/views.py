@@ -39,13 +39,13 @@ class getFriendListAPIView(APIView):
         ).data
         print("friend list:", friendList)
 
-        for i,friend in enumerate(friends):
+        for i,friend in enumerate(friendList):
             try:
-                friends[i]['longitude'] = friends_loc[i]['longitude']
-                friends[i]['latitude'] = friends_loc[i]['latitude']
+                friendList[i]['longitude'] = friends_loc[i]['longitude']
+                friendList[i]['latitude'] = friends_loc[i]['latitude']
             except:
-                friends[i]['longitude'] = -77.8579206738819635802428820170
-                friends[i]['latitude'] = 40.799171908870782488065742654
+                friendList[i]['longitude'] = -77.8579206738819635802428820170
+                friendList[i]['latitude'] = 40.799171908870782488065742654
 
         return Response({"success": True, "friends": friendList}, status = HTTP_200_OK)
 
