@@ -3,6 +3,7 @@ from friendship.models import Friend, FriendshipRequest
 from friends.apis.serializers import getFriendListSerializer, getFriendRequestSerializer
 from accounts.apis.serializers import UserDetailSerializer
 
+import random
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
@@ -18,15 +19,12 @@ class getFriendListAPIView(APIView):
     def get(self, request, *args, **kwargs):
         data = request.GET
         query_result = list(Friend.objects.friends(request.user))
-        print("debug loc 1")
-
         friend_locs = []
         for friend in query_result:
             try:
                 friend_locs.append(list(Locator.objects.filter(user=friend).order_by('-created'))[0])
             except:
                 pass
-        print("debug loc 2:", friend_locs)
         friendList = UserDetailSerializer(
             query_result,
             context={"request": request},
@@ -37,15 +35,14 @@ class getFriendListAPIView(APIView):
             many=True,
             context={"request": request}
         ).data
-        print("friend list:", friendList)
 
         for i,friend in enumerate(friendList):
             try:
                 friendList[i]['longitude'] = friends_loc[i]['longitude']
                 friendList[i]['latitude'] = friends_loc[i]['latitude']
             except:
-                friendList[i]['longitude'] = -77.8579206738819635802428820170
-                friendList[i]['latitude'] = 40.799171908870782488065742654
+                friendList[i]['longitude'] = -77.85792067
+                friendList[i]['latitude'] = 40.799171908
 
         return Response({"success": True, "friends": friendList}, status = HTTP_200_OK)
 
