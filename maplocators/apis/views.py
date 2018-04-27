@@ -26,20 +26,13 @@ class trackCurrentLocationAPIView(APIView):
 
 class postCurrentLocationAPIView(APIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = LocatorsSerializer
     def post(self, request, *args, **kwargs):
         data = request.data
-        print(data)
         user = request.user
-        try:
-            user.longitude = data.get("longitude")
-            user.latitude = data.get("latitude")
-            user.last_updated = datetime.now()
-            user.save()
-            locator = Locator.objects.create_locator(request.user, data.get("longitude"), data.get("latitude"))
-            locator.save()
-        except:
-            return Response({"success": False, 'error_message': "unidentified coordinate"}, status = HTTP_400_BAD_REQUEST)
+        user.longitude = data.get("longitude")
+        user.latitude = data.get("latitude")
+        user.last_updated = datetime.now()
+        user.save()
         return Response({"success": True}, status = HTTP_200_OK)
 
 class getFriendListLocationAPIView(APIView):
