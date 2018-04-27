@@ -9,6 +9,8 @@ from rest_framework.views import APIView
 from rest_framework.permissions import (
     IsAuthenticated
 )
+from maplocators.models import Locator
+from maplocators.apis.serializers import LocatorsSerializer
 User = get_user_model()
 
 class getFriendListAPIView(APIView):
@@ -21,6 +23,20 @@ class getFriendListAPIView(APIView):
             context={"request": request},
             many=True,
         ).data
+        friends_loc = LocatorsSerializer(
+            friend_locs,
+            many=True,
+            context={"request": request}
+        ).data
+
+        for i,friend in enumerate(friends):
+            try:
+                friends[i]['longitude'] = friends_loc[i]['longitude']
+                friends[i]['latitude'] = friends_loc[i]['latitude']
+            except:
+                friends[i]['longitude'] = -77.8579206738819635802428820170
+                friends[i]['latitude'] = 40.799171908870782488065742654
+
         return Response({"success": True, "friends": friendList}, status = HTTP_200_OK)
 
 class getFriendRequestsAPIView(APIView):
