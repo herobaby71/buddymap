@@ -7,8 +7,8 @@ from events.models import Event
 User = get_user_model()
 
 class Activity(models.Model):
-    longitude = models.DecimalField(decimal_places=55, max_digits=60)
-    latitude = models.DecimalField(decimal_places=55, max_digits=60)
+    longitude = models.DecimalField(default=-77, decimal_places=55, max_digits=60)
+    latitude = models.DecimalField(default=43, decimal_places=55, max_digits=60)
     created = models.DateTimeField(default = timezone.now)
 
 
