@@ -20,7 +20,7 @@ class getFriendListAPIView(APIView):
         query_result = list(Friend.objects.friends(request.user))
 
         friend_locs = []
-        for friend in friends:
+        for friend in query_result:
             friend_locs.append(list(Locators.objects.filter(user=friend).order_by('-created'))[0])
 
         friendList = UserDetailSerializer(
