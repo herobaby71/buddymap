@@ -18,11 +18,12 @@ class getFriendListAPIView(APIView):
     def get(self, request, *args, **kwargs):
         data = request.GET
         query_result = list(Friend.objects.friends(request.user))
+        print("debug loc 1")
 
         friend_locs = []
         for friend in query_result:
             friend_locs.append(list(Locator.objects.filter(user=friend).order_by('-created'))[0])
-
+        print("debug loc 2:", friend_locs)
         friendList = UserDetailSerializer(
             query_result,
             context={"request": request},
@@ -33,6 +34,7 @@ class getFriendListAPIView(APIView):
             many=True,
             context={"request": request}
         ).data
+        print("friend list:", friendList)
 
         for i,friend in enumerate(friends):
             try:
