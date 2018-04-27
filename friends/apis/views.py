@@ -22,7 +22,10 @@ class getFriendListAPIView(APIView):
 
         friend_locs = []
         for friend in query_result:
-            friend_locs.append(list(Locator.objects.filter(user=friend).order_by('-created'))[0])
+            try:
+                friend_locs.append(list(Locator.objects.filter(user=friend).order_by('-created'))[0])
+            except:
+                pass
         print("debug loc 2:", friend_locs)
         friendList = UserDetailSerializer(
             query_result,
