@@ -13,8 +13,7 @@
       databasename(myproject): buddymap<br />
       username(myprojectuser): buddymap<br />
       password:123
-11. python manage.py makemigrations accounts                (make sure currently inside the buddyap repo)
-    python manage.py makemigrations friends
+11. python manage.py makemigrations                (make sure currently inside the buddyap repo)
 12. python manage.py migrate
 13. python manage.py createsuperuser                        (email and password of your own choice)
 14. python manage.py runserver
